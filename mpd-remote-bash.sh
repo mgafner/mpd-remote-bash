@@ -272,7 +272,7 @@ do
       if [ ! -z "$OPTARG" ]; then
         filename=`echo -e "currentsong\nclose" | nc localhost 6600 | grep file: | sed 's/file: //'`
         fullname="$BASEPATH/$filename"
-        #amarok/clementine ratings are internally from 0-1, so we have to calculate
+        #amarok/clementine ratings are internally from 0-1, so we have to calculate the values
         rating=`echo -e "scale=2; $OPTARG / 5" | bc`
         eyeD3 --no-color --user-text-frame=FMPS_Rating:$rating "$fullname"  >/dev/null 2>&1
         curl -X POST -H "ContentType: application/json" -d '{"state": "'"$OPTARG"'", "attributes": {"friendly_name": "Rating"}}' http://localhost:8123/api/states/sensor.mpd_rating
